@@ -49,6 +49,7 @@ typings/
 
 # Optional npm cache directory
 .npm
+package-lock.json
 
 # Optional eslint cache
 .eslintcache
@@ -102,3 +103,9 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Dataset
+*.csv
+
+# Macos
+.DS_Store
