@@ -3,18 +3,12 @@ import React, { useState } from 'react';
 import AtomicByDomain from "../components/atomicByDomain"
 import IndexDetail from "../components/indexDetail"
 const { Header, Content, Footer, Sider } = Layout;
+import { headerItems } from '../global'
 
 import 'antd/dist/antd.css';
 import './atomicBrowser.css';
 
-const headerItems = [
-  { key: 'Atomic', label: ( <a href="/atomicBrowser"> 原子指标 </a> )},
-  { key: 'Dimension', label: ( <a href="/dimBrowser"> 统计维度 </a> )},
-  { key: 'Rule', label: ( <a href="/ruleBrowser"> 统计规则 </a> ) }
-]
-
 const atomicBrowser = () => {
-  const [collapsed, setCollapsed] = useState(false);
   const [indexPath, setIndexPath] = useState("指标层级");
   const [indexDetail, setIndexDetail] = useState({});
   const updateBreadcrumb = (path) => { setIndexPath(path) }

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import ErrorPage from "./pages/error-page";
 import DimBrowser from './pages/dimBrowser';
+import RuleViser from './pages/ruleViser';
 import AtomicBrowser from './pages/atomicBrowser';
 import reportWebVitals from './reportWebVitals';
 
@@ -26,6 +27,11 @@ const router = createBrowserRouter([
   {
     path: "/dimBrowser",
     element: <DimBrowser />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: "/ruleBrowser",
+    element: <RuleViser />,
     errorElement: <ErrorPage />
   },
 ]);

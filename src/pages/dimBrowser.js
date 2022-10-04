@@ -5,14 +5,9 @@ import CardWall from "../components/cardWall"
 import { getCommonDimensions, getAttributes } from '../../data.index';
 import _ from 'lodash'
 import { bindAttr2Dim } from '../util'
+import { headerItems } from '../global'
 
 import 'antd/dist/antd.css';
-
-const headerItems = [
-    { key: 'Atomic', label: (<a href="/atomicBrowser"> 原子指标 </a>) },
-    { key: 'Dimension', label: (<a href="/dimBrowser"> 统计维度 </a>) },
-    { key: 'Rule', label: (<a href="/ruleBrowser"> 统计规则 </a>) }
-]
 
 const dimBrowser = () => {
 

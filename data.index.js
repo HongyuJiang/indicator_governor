@@ -11,3 +11,7 @@ export function getCommonDimensions() {
 export function getAttributes() {
     return axios.post('/attributes')
 }
+
+export function getStatRule() {
+    return axios.post('/stat_rules')
+}

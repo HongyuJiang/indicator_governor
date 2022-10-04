@@ -8,9 +8,9 @@ import 'antd/dist/antd.css';
 import './App.css';
 
 const headerItems = [
-  { key: 'Atomic', label: ( <a href="/atomic"> 原子指标 </a> )},
+  { key: 'Atomic', label: ( <a href="/atomicBrowser"> 原子指标 </a> )},
   { key: 'Dimension', label: ( <a href="/dimBrowser"> 统计维度 </a> )},
-  { key: 'Rule', label: '统计规则', to: "/home" }
+  { key: 'Rule', label: ( <a href="/ruleBrowser"> 统计规则 </a> )}
 ]
 
 const App = () => {
