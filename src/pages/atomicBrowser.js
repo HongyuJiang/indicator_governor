@@ -1,19 +1,19 @@
 import { Breadcrumb, Layout, Menu } from 'antd';
 import React, { useState } from 'react';
-import AtomicByDomain from "./components/atomicByDomain"
-import IndexDetail from "./components/indexDetail"
+import AtomicByDomain from "../components/atomicByDomain"
+import IndexDetail from "../components/indexDetail"
 const { Header, Content, Footer, Sider } = Layout;
 
 import 'antd/dist/antd.css';
-import './App.css';
+import './atomicBrowser.css';
 
 const headerItems = [
-  { key: 'Atomic', label: ( <a href="/atomic"> 原子指标 </a> )},
+  { key: 'Atomic', label: ( <a href="/atomicBrowser"> 原子指标 </a> )},
   { key: 'Dimension', label: ( <a href="/dimBrowser"> 统计维度 </a> )},
-  { key: 'Rule', label: '统计规则', to: "/home" }
+  { key: 'Rule', label: ( <a href="/ruleBrowser"> 统计规则 </a> ) }
 ]
 
-const App = () => {
+const atomicBrowser = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [indexPath, setIndexPath] = useState("指标层级");
   const [indexDetail, setIndexDetail] = useState({});
@@ -24,14 +24,14 @@ const App = () => {
     <>
       <Header className="header">
         <div className="logo" />
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['Atomic']} items={headerItems} />
+        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['Atomic']} items={headerItems} selectedKeys={"Atomic"}/>
       </Header>
       <Layout
         style={{
           minHeight: '100vh',
         }}
       >
-        <Sider width={350} className="light-sider" collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+        <Sider width={350} className="light-sider">
           <AtomicByDomain updateBreadcrumb={updateBreadcrumb} updateDetailOfIndex={updateDetailOfIndex} />
         </Sider>
         <Layout className="site-layout">
@@ -53,4 +53,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default atomicBrowser;

@@ -1,0 +1,18 @@
+.wall-line {
+    margin-bottom: 24px;
+}
+
+.card{
+    height: 200px;
+}
+
+.card .ant-card-body {
+    height: 130px;
+    overflow-y: auto;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+.site-card-wrapper {
+    padding: 12px;
+}
