@@ -1,6 +1,6 @@
-import { Breadcrumb, Layout, Menu } from 'antd';
+import { Breadcrumb, Layout, Menu, Input } from 'antd';
 import React, { useState } from 'react';
-import AtomicByDomain from "../components/atomicByDomain"
+import AtomicByDomain from "../components/atomicTree"
 import IndexDetail from "../components/indexDetail"
 const { Header, Content, Footer, Sider } = Layout;
 import { headerItems } from '../global'
@@ -17,7 +17,6 @@ const atomicBrowser = () => {
   return (
     <>
       <Header className="header">
-        <div className="logo" />
         <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['Atomic']} items={headerItems} selectedKeys={"Atomic"}/>
       </Header>
       <Layout
@@ -25,7 +24,7 @@ const atomicBrowser = () => {
           minHeight: '100vh',
         }}
       >
-        <Sider width={350} className="light-sider">
+        <Sider width={300} className="light-sider">
           <AtomicByDomain updateBreadcrumb={updateBreadcrumb} updateDetailOfIndex={updateDetailOfIndex} />
         </Sider>
         <Layout className="site-layout">

@@ -1,5 +1,5 @@
 import G6 from '@antv/g6';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { getStatRule } from '../../data.index';
 import { structuringList } from '../util'
@@ -32,7 +32,6 @@ const draw = (data, ref) => {
                         onChange: function onChange(item, collapsed) {
                             const data = item.getModel();
                             data.collapsed = collapsed;
-                            //graph.fitView();
                             return true;
                         },
                         
@@ -42,7 +41,7 @@ const draw = (data, ref) => {
                 ],
             },
             defaultNode: {
-                size: 26,
+                size: 20,
                 anchorPoints: [
                   [0, 0.5],
                   [1, 0.5],
@@ -53,7 +52,7 @@ const draw = (data, ref) => {
             },
             layout: {
                 direction: 'LR', // H / V / LR / RL / TB / BT
-                nodeSep: 50,
+                nodeSep: 30,
                 rankSep: 150,
               },
         });

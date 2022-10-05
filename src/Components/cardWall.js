@@ -1,12 +1,17 @@
-import { Card, Col, Row, Tag, Divider } from 'antd';
+import { Card, Col, Row, Tag, Tooltip } from 'antd';
 import React from 'react';
+import _ from 'lodash'
 
 import 'antd/dist/antd.css';
 import './cardWall.css';
 
 const wallConstruct = (data) => {
     const dataChunk = _.chunk(data,3);
-    const generateTag = (tags) => tags.map((d) => <Tag key={d.name}> {d.name} </Tag>)
+    const generateTag = (tags) => tags.map((d) => 
+        <Tooltip placement="topLeft" title={_.join(d.children,'、')}>
+            <Tag color="blue" key={d.name}> {d.name} </Tag>
+        </Tooltip>
+    )
     const generateEle = (name, desc, attrs) => <Col span={8} key={`col-${name}`}> 
         <Card key={name} className='card' title={name} bordered={false}> 
             <div>

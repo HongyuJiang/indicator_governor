@@ -1,0 +1,16 @@
+.dimSelector .ant-tabs-content-holder {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.dimSelector .ant-tree {
+    background: none;
+}
+
+.dimSelector .ant-tabs-tab {
+    padding: 4px 16px 4px 0px !important;
+}
+
+.dimSelector .ant-tabs-tab {
+    margin: 4px 0 0 0 !important;
+}

@@ -5,7 +5,7 @@ import ErrorPage from "./pages/error-page";
 import DimBrowser from './pages/dimBrowser';
 import RuleViser from './pages/ruleViser';
 import AtomicBrowser from './pages/atomicBrowser';
-import reportWebVitals from './reportWebVitals';
+import GroupEditor from './pages/groupEditor';
 
 import {
   createBrowserRouter,
@@ -34,6 +34,11 @@ const router = createBrowserRouter([
     element: <RuleViser />,
     errorElement: <ErrorPage />
   },
+  {
+    path: "/groupEditor",
+    element: <GroupEditor />,
+    errorElement: <ErrorPage />
+  },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -42,8 +47,3 @@ root.render(
     <RouterProvider router={router} />
   </React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

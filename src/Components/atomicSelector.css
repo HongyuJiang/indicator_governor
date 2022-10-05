@@ -1,0 +1,12 @@
+.atomicSelector .ant-tabs-content-holder {
+    max-height: 360px;
+    overflow-y: auto;
+}
+
+.atomicSelector .ant-tree {
+    background: none;
+}
+
+.atomicSelector .ant-tabs-tab {
+    padding: 4px 16px 4px 0px !important;
+}

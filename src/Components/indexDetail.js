@@ -1,6 +1,5 @@
-import { Button, Descriptions, PageHeader, Statistic, Tabs, Tag } from 'antd';
+import { Button, Descriptions, PageHeader, Empty, Tabs, Tag } from 'antd';
 import React from 'react';
-const { TabPane } = Tabs;
 
 const renderContent = (props) => {
     const { className, defination, equation, dimension, stat_rules, unit, range, condition } = props;
@@ -25,24 +24,18 @@ const Content = ({ children, extra }) => (
     </div>
 );
 
-const IndexDetail = (props) => (
-    <PageHeader
-        tags={<Tag color="blue">{props.target}</Tag>}
+const IndexDetail = (props) => {
+    return props.name ? <PageHeader
+        tags={props.target && <Tag color="blue">{props.target}</Tag>}
         className="site-page-header-responsive"
         title={props.name}
         subtTitle={props.alias}
-        extra={[
+        extra={ [
             <Button key="1" type="primary"> 编辑 </Button>,
         ]}
-        // footer={
-        //     <Tabs defaultActiveKey="1">
-        //         <TabPane tab="Details" key="1" />
-        //         <TabPane tab="Rule" key="2" />
-        //     </Tabs>
-        // }
     >
-        <Content>{renderContent(props)}</Content>
-    </PageHeader>
-);
+        {<Content>{renderContent(props)}</Content>}
+    </PageHeader> : <Empty style={{ padding: 100}} />
+};
 
 export default IndexDetail;

@@ -1,6 +1,6 @@
 import { Breadcrumb, Layout, Menu } from 'antd';
 import React, { useState } from 'react';
-import AtomicByDomain from "./components/atomicByDomain"
+import AtomicByDomain from "./components/atomicTree"
 import IndexDetail from "./components/indexDetail"
 const { Header, Content, Footer, Sider } = Layout;
 
