@@ -16,7 +16,7 @@ function handleNodeClick(event) {
 
 const draw = (data, ref) => {
 
-    const width = 1300;
+    const width = 1500;
     const height = 800;
 
     if (!graph) {

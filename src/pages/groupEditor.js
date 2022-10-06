@@ -1,8 +1,9 @@
-import { Layout, Menu, Row, Col, Card, Space } from 'antd';
+import { Layout, Menu, Row, Col, Card, Space, Button } from 'antd';
 import React, { useState } from 'react';
 import AtomicSelector from "../components/atomicSelector"
 import DimSelector from "../components/dimSelector"
 import ArtifactPreview from "../components/artifactPreview"
+import RuleSelector from "../components/ruleSelector"
 const { Header } = Layout;
 import { headerItems } from '../global'
 
@@ -10,10 +11,17 @@ import 'antd/dist/antd.css';
 import './atomicBrowser.css';
 
 const groupEditor = () => {
-  const [indexPath, setIndexPath] = useState("指标层级");
-  const [indexDetail, setIndexDetail] = useState({});
-  const updateBreadcrumb = (path) => { setIndexPath(path) }
-  const updateDetailOfIndex = (path) => { setIndexDetail(path) }
+
+  const [checkedIndexes, setCheckedIndexes] = useState([]);
+  const [checkedDims, setCheckedDims] = useState([]);
+
+  const updateCheckedIndexes = (indexes) => {
+    setCheckedIndexes(indexes)
+  }
+
+  const updateCheckedDims = (dims) => {
+    setCheckedDims(dims)
+  }
 
   return (
     <>
@@ -25,20 +33,24 @@ const groupEditor = () => {
             <Row gutter={16}>
                 <Col span={8}> 
                     <Card style={{ width: '100%'}} title="原子指标筛选" >
-                        <AtomicSelector />
+                        <AtomicSelector updateCheckedIndexes={updateCheckedIndexes}/>
                     </Card>  
                 </Col>
 
-                <Col span={8}> 
+                <Col span={6}> 
                     <Card style={{ width: '100%'}} title="维度筛选" >
-                        <DimSelector />
+                        <DimSelector updateCheckedDims={updateCheckedDims} />
                     </Card>  
+                </Col>
+
+                <Col span={10}> 
+                    <RuleSelector />
                 </Col>
             </Row>
 
-            <Row gutter={16} style={{textAlign: 'center'}}>
-                <Card style={{ width: '90vw'}} title="指标组预览" >
-                    <ArtifactPreview />
+            <Row gutter={16}>
+                <Card style={{ width: '98vw'}} title="指标组预览" extra={<Button type="primary">导出</Button>}>
+                    <ArtifactPreview checkedIndexes={checkedIndexes} checkedDims={checkedDims} />
                 </Card>  
             </Row>
         </Space>

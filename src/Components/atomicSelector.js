@@ -9,12 +9,8 @@ import './atomicSelector.css';
 const atomicByDomain = (props) => {
 
     const [treeData, setTreeData] = useState([]);
-    const [openedTab, setOpenedTab] = useState([]);
-    const [autoExpandParent, setAutoExpandParent] = useState(true);
-
-    const onTabChange = (openedTab) => {
-        setOpenedTab(openedTab);
-    };
+    const [indexAttr, setIndexAttr] = useState([]);
+    const [checkedIndexes, setCheckedIndexes] = useState(true);
 
     const onSelect = (_, info) => {
         const attr = info.node;
@@ -34,11 +30,18 @@ const atomicByDomain = (props) => {
         })
     };
 
+    const onCheck = (checkedKeysValue) => {
+        const selectedIndexes = _.filter(indexAttr, (d) => checkedKeysValue.indexOf(d.key) > -1)
+        console.log('onCheck', selectedIndexes);
+        setCheckedIndexes(selectedIndexes);
+        props.updateCheckedIndexes(selectedIndexes)
+    };
+
     useEffect(() => {
         getAtomicIndicators().then((data) => {
-
             const indexesByDomain = _.groupBy(data.data, '业务域')
             let nestedIndicators = []
+            let flattenIndicators = []
 
             for (const domain in indexesByDomain) {
                 const domainIndexes = indexesByDomain[domain]
@@ -52,11 +55,13 @@ const atomicByDomain = (props) => {
                     topChildren.push({
                         title: theme, key: domain + '_' + theme, children: leafIndexes, icon: <ApartmentOutlined />
                     })
+                    flattenIndicators = flattenIndicators.concat(leafIndexes)
                 }
                 domain !== '' && nestedIndicators.push({ title: domain, key: domain, children: topChildren, icon: <ApartmentOutlined /> })
             }
 
             setTreeData(nestedIndicators)
+            setIndexAttr(flattenIndicators)
         })
     }, [])
 
@@ -69,10 +74,9 @@ const atomicByDomain = (props) => {
                 return {
                     label: d.title,
                     key: id,
-                    children: <Tree checkable treeData={treeData[i].children} />,
+                    children: <Tree checkable onCheck={onCheck} treeData={treeData[i].children} />,
                 };
                 })}
-                //onChange={onTabChange}
             />}
             
         </div>

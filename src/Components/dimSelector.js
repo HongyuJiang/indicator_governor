@@ -25,6 +25,8 @@ const structuringList = (data) => {
 const dimSelector = (props) => {
 
     const [treeData, setTreeData] = useState([]);
+    const [dimAttr, setDimAttr] = useState([]);
+    const { updateCheckedDims } = props
 
     useEffect(() => {
         getCommonDimensions().then((dimData) => {
@@ -32,13 +34,19 @@ const dimSelector = (props) => {
                 const dims = dimData.data
                 const attrs = attrData.data
                 const dimWithAttr = bindAttr2Dim(dims, attrs);
-                console.log(dimWithAttr)
                 const nestedDims = structuringList(dimWithAttr)
                 setTreeData(nestedDims)
+                setDimAttr(dimWithAttr)
 
             })
         })
     }, [])
+
+    const onCheck = (checkedKeysValue) => {
+        const selectedDims = _.filter(dimAttr, (d) => 
+            checkedKeysValue.indexOf(d['领域'] + '_' + d['维度']) > -1)
+        updateCheckedDims(selectedDims)
+    };
 
     return (
         <div className='dimSelector'>
@@ -49,10 +57,9 @@ const dimSelector = (props) => {
                     return {
                         label: d.title,
                         key: id,
-                        children: <Tree checkable treeData={treeData[i].children} />,
+                        children: <Tree checkable onCheck={onCheck} treeData={treeData[i].children} />,
                     };
                 })}
-            //onChange={onTabChange}
             />}
 
         </div>
