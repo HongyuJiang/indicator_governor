@@ -14,6 +14,12 @@ const groupEditor = () => {
 
   const [checkedIndexes, setCheckedIndexes] = useState([]);
   const [checkedDims, setCheckedDims] = useState([]);
+  const [ruleTag, setRuleTag] = useState({});
+  const [dragStatus, setDragStatus] = useState(false);
+
+  const updateDragStatus = (status) => {
+    setDragStatus(status)
+  }
 
   const updateCheckedIndexes = (indexes) => {
     setCheckedIndexes(indexes)
@@ -21,6 +27,10 @@ const groupEditor = () => {
 
   const updateCheckedDims = (dims) => {
     setCheckedDims(dims)
+  }
+
+  const updateRuleTag = (tag) => {
+    setRuleTag(tag)
   }
 
   return (
@@ -44,13 +54,17 @@ const groupEditor = () => {
                 </Col>
 
                 <Col span={10}> 
-                    <RuleSelector />
+                    <RuleSelector updateRuleTag={updateRuleTag} updateDragStatus={updateDragStatus} />
                 </Col>
             </Row>
 
             <Row gutter={16}>
                 <Card style={{ width: '98vw'}} title="指标组预览" extra={<Button type="primary">导出</Button>}>
-                    <ArtifactPreview checkedIndexes={checkedIndexes} checkedDims={checkedDims} />
+                    <ArtifactPreview 
+                      ruleTag={ruleTag} 
+                      dragStatus={dragStatus}
+                      checkedIndexes={checkedIndexes} 
+                      checkedDims={checkedDims} />
                 </Card>  
             </Row>
         </Space>

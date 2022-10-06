@@ -11,10 +11,6 @@ const assignColor = (category) => {
     else if(category.indexOf('同') > -1) return 'purple'
 }
 
-const onDragEnd = (e) => {
-    console.log(e)
-}
-
 const ruleSelector = (props) => {
 
     const [statRules, setStatRules] = useState({});
@@ -24,6 +20,19 @@ const ruleSelector = (props) => {
     const onStatPeriodChange = (value) => {
         setStatPeriod(value)
         setStatRulesFocused(statRules[value])
+    }
+
+    const onDragStart = (e) => {
+        console.log('drag start')
+        const category = _.last(e.target.className.split(' '))
+        props.updateRuleTag({ 'name': e.target.textContent, 'category': category })
+        props.updateDragStatus(true)
+    }
+
+    const onDragEnd = (e) => {
+        //const category = _.last(e.target.className.split(' '))
+        //props.updateRuleTag(undefined)
+        props.updateDragStatus(false)
     }
 
     useEffect(() => {
@@ -38,11 +47,16 @@ const ruleSelector = (props) => {
     }, [])
 
     return (
-
         <Card title="统计规则" extra={<Segmented options={['日', '月', '季度', '年', '上市以来', '截止']} onChange={onStatPeriodChange}/>}>
             <div className='ruleSelector' style={{height: 300, overflowY: 'auto'}}>
                 {statRulesFocused.map((d) => 
-                    <Tag key={d['统计规则']} color={assignColor(d['统计方法'])} draggable onDragEnd={onDragEnd} style={{margin:8}}>{d['统计规则']}</Tag>
+                    <Tag className={d['统计方法']} 
+                         key={d['统计规则']} 
+                         color={assignColor(d['统计方法'])} 
+                         draggable 
+                         onDragEnd={onDragEnd} 
+                         onDragStart={onDragStart} 
+                         style={{margin:8}}>{d['统计规则']}</Tag>
                 )}
             </div>
         </Card>
