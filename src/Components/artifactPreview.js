@@ -1,63 +1,121 @@
-import { Table } from 'antd';
-import React, { useState, useEffect } from 'react';
+import { Table, Tabs, Button } from 'antd';
+import React, { useState, useEffect, useRef } from 'react';
 import { generateColumns } from './artifactColumns';
-import { indexFormat, dimFormat } from '../util'
+import { indexFormat, dimFormat, attrFormat } from '../util'
+
+import './artifactPreview.css'
+
+const OperationsSlot = (onClick) => { return {
+    left: <Button className="tabs-extra-demo-button">指标组预览</Button>,
+    right: <div><Button type="primary" onClick={onClick}>新建</Button> <Button type="info">导出</Button></div>,
+}};
+
+const generateTable = (columns, tabular) => {
+    return <Table columns={columns}
+        dataSource={tabular}
+        pagination={false}
+        bordered
+        rowKey={(record) => { return record.id + Date.now() }}
+    />;
+}
+
+const generateMultiTable = (columns, dataset) => {
+    let items = []
+    for(let tabKey in dataset){
+        items.push({
+            label: `指标组 ${tabKey}`,
+            key: tabKey,
+            children: generateTable(columns, dataset[tabKey]),
+        })
+    }
+    return items
+}
 
 const artifactPreview = (props) => {
 
+    const { checkedIndexes, checkedDims, 
+            ruleTag, dragStatus, checkedAttrs, 
+            needReset, updateshowGroupId } = props
+
     const [ruleTarget, setRuleTarget] = useState(undefined);
     const [tabular, setTabular] = useState([]);
+    const [tabularByKey, setTabularByKey] = useState({});
     const [columns, setColumns] = useState([]);
+    const [activeKey, setActiveKey] = useState('1');
+    const newTabIndex = useRef(1);
+    const [items, setItems] = useState([])
 
     const onTagDrop = (e) => {
-        console.log(e.target.id)
         setRuleTarget(e.target)
     }
 
-    const { checkedIndexes, checkedDims, ruleTag, dragStatus } = props
+    useEffect(() => {
+        setColumns(generateColumns(onTagDrop))
+    }, [])
 
     useEffect(() => {
 
         const indexTabular = indexFormat(checkedIndexes)
-        indexTabular.forEach((d, i) => { d.type = 'index' })
-
-        const dimTabular = dimFormat(checkedDims) 
-        dimTabular.forEach((d, i) => { d.type = 'dimension' })
-
-        let tabular = dimTabular.concat(indexTabular)
+        const dimTabular = dimFormat(checkedDims)
+        const attTabular = attrFormat(checkedAttrs)
+        let tabular = dimTabular.concat(attTabular.concat(indexTabular))
 
         tabular.forEach((d, i) => {
             d.rowSpan = 0
             d.id = i
         })
-        if(tabular.length > 0)
-            tabular[0].rowSpan = tabular.length
-
-        setColumns(generateColumns(onTagDrop))
+        if (tabular.length > 0) tabular[0].rowSpan = tabular.length
+        
         setTabular(tabular)
-    
-    }, [checkedIndexes, checkedDims])
+
+    }, [checkedIndexes, checkedDims, checkedAttrs])
 
     useEffect(() => {
-        
         if (ruleTarget && ruleTag && dragStatus) {
             const id = parseInt(ruleTarget.id)
-            tabular[id].rule = ruleTag.name
-            tabular[id].category = ruleTag.category
+            const targetIndex = _.findIndex(tabular, { 'id': id });
+            tabular[targetIndex].rule = ruleTag.name
+            tabular[targetIndex].category = ruleTag.category
             setTabular([...tabular])
         }
     }, [ruleTarget, ruleTag])
 
     useEffect(() => {
-        if(!dragStatus) setRuleTarget(undefined)
+        if (!dragStatus) setRuleTarget(undefined)
     }, [dragStatus])
 
-    return <Table columns={columns} 
-                dataSource={tabular} 
-                pagination={false} 
-                bordered 
-                rowKey={(record) => {return record.id + Date.now()}}
-            />;
+    useEffect(() => {
+        const items = generateMultiTable(columns, tabularByKey)
+        //console.log(items)
+        setItems(items)
+    }, [tabularByKey])
+    
+    useEffect(() => {
+        const cp = {...tabularByKey}
+        cp[activeKey] = tabular
+        setTabularByKey(cp)
+    }, [tabular, activeKey])
+
+    const onTabChange = (activeKey) => {
+        setActiveKey(activeKey);
+        updateshowGroupId(activeKey)
+    }
+
+    const addTable = () => {
+        const newActiveKey = `${++newTabIndex.current}`;
+        setTabular([])
+        setActiveKey(newActiveKey);
+        updateshowGroupId(newActiveKey)
+        //needReset()
+    };
+
+    return <Tabs
+        defaultActiveKey="1"
+        onChange={onTabChange}
+        tabBarExtraContent={OperationsSlot(addTable)}
+        activeKey={activeKey}
+        items={items}
+    />
 }
 
 export default artifactPreview;

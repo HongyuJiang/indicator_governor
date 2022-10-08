@@ -1,41 +1,41 @@
 import { ApartmentOutlined } from '@ant-design/icons'; 
 import { Tabs, Tree } from 'antd';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useImperativeHandle, forwardRef } from 'react';
 import { getAtomicIndicators } from '../../data.index';
 import _ from 'lodash';
 
 import './atomicSelector.css';
 
-const atomicByDomain = (props) => {
+const atomicByDomain = forwardRef((props, ref) => {
 
     const [treeData, setTreeData] = useState([]);
     const [indexAttr, setIndexAttr] = useState([]);
     const [checkedIndexes, setCheckedIndexes] = useState(true);
+    const [groupStore, setGroupStore] = useState({});
 
-    const onSelect = (_, info) => {
-        const attr = info.node;
-        props.updateBreadcrumb(info.node.key.replaceAll('_', ' / '))
-        info.node.key.split('_').length > 2 && props.updateDetailOfIndex({
-            name: attr.title,
-            className: attr.data['二级分类'],
-            stat_rules: attr.data['适用公共统计规则'],
-            dimension: attr.data['常用维度'],
-            range: attr.data['取值范围'],
-            defination: attr.data['业务定义'],
-            equation: attr.data['计算公式'],
-            target: attr.data['指标归口业务部门'],
-            unit: attr.data['度量单位'],
-            condition: attr.data['范围及条件'],
-            alias: attr.data['指标别名']
-        })
-    };
+    useImperativeHandle(ref, () => ({
+        resetAtomic: (prevId, curId) => {
+            let newStore = {...groupStore}
+            newStore[prevId] = checkedIndexes
+            setGroupStore(newStore)
+            
+            if (curId in groupStore){
+                setCheckedIndexes(groupStore[curId])
+            }
+            else {
+                setCheckedIndexes([])
+            }
+        },
+      }));
 
     const onCheck = (checkedKeysValue) => {
-        const selectedIndexes = _.filter(indexAttr, (d) => checkedKeysValue.indexOf(d.key) > -1)
-        console.log('onCheck', selectedIndexes);
-        setCheckedIndexes(selectedIndexes);
-        props.updateCheckedIndexes(selectedIndexes)
+        setCheckedIndexes(checkedKeysValue)
     };
+
+    useEffect(() => {
+        const selectedIndexes = _.filter(indexAttr, (d) => checkedIndexes.indexOf(d.key) > -1)
+        props.updateCheckedIndexes(selectedIndexes)
+    }, [checkedIndexes])
 
     useEffect(() => {
         getAtomicIndicators().then((data) => {
@@ -74,13 +74,13 @@ const atomicByDomain = (props) => {
                 return {
                     label: d.title,
                     key: id,
-                    children: <Tree checkable onCheck={onCheck} treeData={treeData[i].children} />,
+                    children: <Tree checkable checkedKeys={checkedIndexes} onCheck={onCheck} treeData={treeData[i].children} />,
                 };
                 })}
             />}
             
         </div>
     );
-};
+});
 
 export default atomicByDomain;

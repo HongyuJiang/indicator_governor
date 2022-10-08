@@ -35,10 +35,20 @@ export const generateColumns = (onTagDrop) => {
         key: 'rule',
         render: (text, d) => {
             if (d.type === 'index') {
-                if (d.rule) return <Tag id={d.id} onDragEnter={onTagDrop} color={assignColor(d.category)}>{d.rule}</Tag>
-                else return <div id={d.id} onDragEnter={onTagDrop}>{'待输入'} </div>
+                if (d.rule) 
+                    return <Tag id={d.id} 
+                                onDragEnter={onTagDrop} 
+                                color={assignColor(d.category)}>
+                                {d.rule}
+                           </Tag>
+                else return <div 
+                                id={d.id} 
+                                onDragEnter={onTagDrop}>
+                                {'待输入'} 
+                            </div>
             }
-            else return "维度"
+            else if (d.type === 'attr') return <Tag color={'orange'}>属性</Tag>
+            else return <Tag color={'red'}>维度</Tag>
         }
     },
     {
@@ -56,14 +66,18 @@ export const generateColumns = (onTagDrop) => {
         key: 'unit',
         render: (_, { unit }) => {
             if(unit && unit !== 'NA')
-                return unit.split('，').map((d) => <Tag color={'blue'} key={d}> {d} </Tag>)
+                return unit.split('，').map((d) => <Tag color={'gray'} key={d}> {d} </Tag>)
             else if(unit === 'NA')
-                return <Tag color={'blue'} key={'NA'}>无</Tag>
+                return <Tag color={'gray'} key={'NA'}>无</Tag>
         },
     },
     {
         title: '精度',
         key: 'precision',
-        render: text => <span>无</span>
+        render: (_, { unit, type }) => {
+            if(type !== 'index')
+                return ''
+            else return <Tag color={'gray'}>两位小数</Tag>
+        },
     },
 ]}

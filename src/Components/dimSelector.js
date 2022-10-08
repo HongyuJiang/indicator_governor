@@ -1,6 +1,6 @@
 import { Tabs, Tree } from 'antd';
 import { ApartmentOutlined } from '@ant-design/icons'; 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useImperativeHandle, forwardRef } from 'react';
 import { getCommonDimensions, getAttributes } from '../../data.index';
 import { bindAttr2Dim } from '../util'
 import _ from 'lodash';
@@ -18,15 +18,32 @@ const structuringList = (data) => {
         })
         domain !== '' && nestedIndicators.push({ title: domain, key: domain, children: leafIndexes, icon: <ApartmentOutlined /> })
     }
-
     return nestedIndicators
 }
 
-const dimSelector = (props) => {
+const dimSelector = forwardRef((props, ref) => {
 
     const [treeData, setTreeData] = useState([]);
     const [dimAttr, setDimAttr] = useState([]);
-    const { updateCheckedDims } = props
+    const [checkedDims, setCheckedDims] = useState([]);
+    const [groupStore, setGroupStore] = useState({});
+    const { updateCheckedDims, updateRelatedAttrs } = props
+
+    useImperativeHandle(ref, () => ({
+        resetDim: (prevId, curId) => {
+
+            let newStore = {...groupStore}
+            newStore[prevId] = checkedDims
+            setGroupStore(newStore)
+            
+            if (curId in groupStore){
+                setCheckedDims(groupStore[curId])
+            }
+            else {
+                setCheckedDims([])
+            }
+        },
+      }), [checkedDims]);
 
     useEffect(() => {
         getCommonDimensions().then((dimData) => {
@@ -37,16 +54,24 @@ const dimSelector = (props) => {
                 const nestedDims = structuringList(dimWithAttr)
                 setTreeData(nestedDims)
                 setDimAttr(dimWithAttr)
-
             })
         })
     }, [])
 
     const onCheck = (checkedKeysValue) => {
-        const selectedDims = _.filter(dimAttr, (d) => 
-            checkedKeysValue.indexOf(d['领域'] + '_' + d['维度']) > -1)
-        updateCheckedDims(selectedDims)
+        setCheckedDims(checkedKeysValue)
     };
+
+    useEffect(() => {
+        const selectedDims = _.filter(dimAttr, (d) => 
+        checkedDims.indexOf(d['领域'] + '_' + d['维度']) > -1)
+        updateCheckedDims(selectedDims)
+        let attrs = []
+        selectedDims.forEach((d) => {
+            attrs = attrs.concat(d['属性'].map((d) => { return {'name': d.name, 'defination': d.children[0]}}))
+        })
+        updateRelatedAttrs(attrs)
+    }, [checkedDims])
 
     return (
         <div className='dimSelector'>
@@ -57,13 +82,13 @@ const dimSelector = (props) => {
                     return {
                         label: d.title,
                         key: id,
-                        children: <Tree checkable onCheck={onCheck} treeData={treeData[i].children} />,
+                        children: <Tree checkable checkedKeys={checkedDims} onCheck={onCheck} treeData={treeData[i].children} />,
                     };
                 })}
             />}
 
         </div>
     );
-};
+});
 
 export default dimSelector;

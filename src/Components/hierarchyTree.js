@@ -69,7 +69,7 @@ const draw = (data, ref) => {
 
         graph.data(data);
         graph.render();
-        graph.fitView();
+        graph.fitView([200]);
         graph.on('node:click', handleNodeClick);
 
     }

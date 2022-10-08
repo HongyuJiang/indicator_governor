@@ -62,6 +62,7 @@ export const indexFormat = (originIndexes) => {
             name: d.data['指标名称'],
             defination: d.data['业务定义'],
             unit: d.data['度量单位'],
+            type: 'index',
         }
     })
 }
@@ -71,7 +72,18 @@ export const dimFormat = (originIndexes) => {
     return originIndexes.map((d) => {
         return {
             name: d['维度'],
-            defination: d['定义']
+            defination: d['定义'],
+            type: 'dimension'
+        }
+    })
+}
+
+export const attrFormat = (originIndexes) => {
+
+    return originIndexes.map((d) => {
+        return {
+            ...d,
+            type: 'attr'
         }
     })
 }

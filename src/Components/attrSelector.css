@@ -1,0 +1,12 @@
+.attrSelector {
+    height: 306px;
+    overflow-y: auto;
+}
+
+.attrSelector .hint {
+    margin-bottom: 12px;
+}
+
+.attrSelector .ant-tag {
+    margin: 5px;
+}
