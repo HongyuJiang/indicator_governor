@@ -8,7 +8,7 @@ import './cardWall.css';
 const wallConstruct = (data) => {
     const dataChunk = _.chunk(data,3);
     const generateTag = (tags) => tags.map((d) => 
-        <Tooltip placement="topLeft" title={_.join(d.children,'、')}>
+        <Tooltip key={d.name} placement="topLeft" title={_.join(d.children,'、')}>
             <Tag color="blue" key={d.name}> {d.name} </Tag>
         </Tooltip>
     )

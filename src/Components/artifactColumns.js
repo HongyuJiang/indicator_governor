@@ -64,6 +64,7 @@ export const generateColumns = (onTagDrop) => {
     {
         title: '单位',
         key: 'unit',
+        dataIndex: 'unit',
         render: (_, { unit }) => {
             if(unit && unit !== 'NA')
                 return unit.split('，').map((d) => <Tag color={'gray'} key={d}> {d} </Tag>)

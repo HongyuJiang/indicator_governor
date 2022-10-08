@@ -2,13 +2,9 @@ import { Table, Tabs, Button } from 'antd';
 import React, { useState, useEffect, useRef } from 'react';
 import { generateColumns } from './artifactColumns';
 import { indexFormat, dimFormat, attrFormat } from '../util'
+import { toExcel } from '../export'
 
 import './artifactPreview.css'
-
-const OperationsSlot = (onClick) => { return {
-    left: <Button className="tabs-extra-demo-button">指标组预览</Button>,
-    right: <div><Button type="primary" onClick={onClick}>新建</Button> <Button type="info">导出</Button></div>,
-}};
 
 const generateTable = (columns, tabular) => {
     return <Table columns={columns}
@@ -86,7 +82,6 @@ const artifactPreview = (props) => {
 
     useEffect(() => {
         const items = generateMultiTable(columns, tabularByKey)
-        //console.log(items)
         setItems(items)
     }, [tabularByKey])
     
@@ -106,8 +101,16 @@ const artifactPreview = (props) => {
         setTabular([])
         setActiveKey(newActiveKey);
         updateshowGroupId(newActiveKey)
-        //needReset()
     };
+
+    const exportTable = () => {
+        toExcel(columns, tabularByKey[activeKey], '未命名', activeKey)
+    };
+    
+    const OperationsSlot = (onClick) => { return {
+        left: <Button className="tabs-extra-demo-button">指标组预览</Button>,
+        right: <div><Button type="primary" onClick={onClick}>新建</Button> <Button type="info" onClick={exportTable}>导出</Button></div>,
+    }};
 
     return <Tabs
         defaultActiveKey="1"

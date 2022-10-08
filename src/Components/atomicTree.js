@@ -1,15 +1,14 @@
 import { ApartmentOutlined } from '@ant-design/icons'; 
 import { Tree, Input } from 'antd';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { getAtomicIndicators } from '../../data.index';
 const { Search } = Input;
 import { getParentKey } from '../util'
 import _ from 'lodash';
 
-const atomicByDomain = (props) => {
+const atomicTree = (props) => {
 
     const [treeData, setTreeData] = useState([]);
-
     const [expandedKeys, setExpandedKeys] = useState([]);
     const [searchValue, setSearchValue] = useState('');
     const [flattenIndexes, setFlattenIndexes] = useState('');
@@ -17,16 +16,19 @@ const atomicByDomain = (props) => {
 
     const onChange = (e) => {
         const { value } = e.target;
-        const newExpandedKeys = flattenIndexes
+        let newExpandedKeys = []
+        if(value !== '') {
+            newExpandedKeys = flattenIndexes
             .map((item) => {
                 if (item['指标名称'].indexOf(value) > -1) {
                     const key = item['业务域'] + '_' + item['一级分类'] + '_' + item['指标名称']
-                    console.log(getParentKey(key, treeData))
                     return getParentKey(key, treeData);
                 }
                 return null;
             })
             .filter((item, i, self) => item && self.indexOf(item) === i);
+
+        }
 
         setExpandedKeys(newExpandedKeys);
         setSearchValue(value);
@@ -82,6 +84,42 @@ const atomicByDomain = (props) => {
         })
     }, [])
 
+    const semanticData = useMemo(() => {
+        const loop = (data) =>
+          data.map((item) => {
+            const strTitle = item.title;
+            const index = strTitle.indexOf(searchValue);
+            const beforeStr = strTitle.substring(0, index);
+            const afterStr = strTitle.slice(index + searchValue.length);
+            const title =
+              index > -1 ? (
+                <span>
+                  {beforeStr}
+                  <span style={{color: 'red'}}>{searchValue}</span>
+                  {afterStr}
+                </span>
+              ) : (
+                <span>{strTitle}</span>
+              );
+    
+            if (item.children) {
+              return {
+                title,
+                key: item.key,
+                children: loop(item.children),
+              };
+            }
+    
+            return {
+              title,
+              key: item.key,
+              data: item.data,
+            };
+          });
+    
+        return loop(treeData);
+      }, [treeData, searchValue]);
+
     return (
         <div>
             <Search placeholder="search index" onChange={onChange} style={{ width: 270, paddingBottom: 20 }} />
@@ -90,7 +128,7 @@ const atomicByDomain = (props) => {
                 showIcon
                 onSelect={onSelect}
                 onExpand={onExpand}
-                treeData={treeData}
+                treeData={semanticData}
                 expandedKeys={expandedKeys}
                 autoExpandParent={autoExpandParent}
             />
@@ -98,4 +136,4 @@ const atomicByDomain = (props) => {
     );
 };
 
-export default atomicByDomain;
+export default atomicTree;

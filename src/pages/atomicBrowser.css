@@ -1,27 +1,31 @@
 #components-layout-demo-side .logo {
-    height: 32px;
-    margin: 16px;
-    background: rgba(255, 255, 255, 0.3);
-  }
-  
-  .site-layout .site-layout-background {
-    background: #fff;
-    padding: 24;
-    min-height: 360;
-  } 
-  
-  .light-sider {
-    background: #fff;
-    height: 95vh;
-    overflow-y: auto;
-    padding: 10px;
-    font-weight: 500;
-  }
-  
-  .light-sider .ant-tree-title {
-    font-size: 15px;
-  }
-  
-  .light-sider .ant-tree-treenode {
-    padding-bottom: 15px;
-  }
+  height: 32px;
+  margin: 16px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.site-layout .site-layout-background {
+  background: #fff;
+  padding: 24;
+  min-height: 360;
+}
+
+.light-sider {
+  background: #fff;
+  height: 95vh;
+  overflow-y: auto;
+  padding: 10px;
+  font-weight: 500;
+}
+
+.light-sider .ant-tree-title {
+  font-size: 15px;
+}
+
+.light-sider .ant-tree-treenode {
+  padding-bottom: 15px;
+}
+
+.site-tree-search-value {
+  color: red;
+}

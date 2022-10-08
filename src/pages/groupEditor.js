@@ -61,11 +61,10 @@ const groupEditor = () => {
   }
 
   useEffect(() => {
+    setAttrsCandidates([])
     dimSelectorRef.current.resetDim(prevGroupId, showGroupId)
     atomicSelectorRef.current.resetAtomic(prevGroupId, showGroupId)
-    setAttrsCandidates([])
     attrSelectorRef.current.resetAttr(prevGroupId, showGroupId)
-    setResetFlag(false)
   }, [showGroupId])
 
   return (
