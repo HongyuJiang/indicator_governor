@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { generateColumns } from './artifactColumns';
 import { indexFormat, dimFormat, attrFormat } from '../util'
 import { toExcel } from '../export'
+import { PlusCircleOutlined, ExportOutlined } from '@ant-design/icons';
 
 import './artifactPreview.css'
 
@@ -109,7 +110,10 @@ const artifactPreview = (props) => {
     
     const OperationsSlot = (onClick) => { return {
         left: <Button className="tabs-extra-demo-button">指标组预览</Button>,
-        right: <div><Button type="primary" onClick={onClick}>新建</Button> <Button type="info" onClick={exportTable}>导出</Button></div>,
+        right: <div style={{padding: 5}}>
+                <Button style={{marginRight:10}} type="primary" onClick={onClick} shape="round" icon={<PlusCircleOutlined />}> 新建 </Button>
+                <Button color='red' onClick={exportTable} shape="round" icon={<ExportOutlined />}> 导出 </Button>
+              </div>,
     }};
 
     return <Tabs

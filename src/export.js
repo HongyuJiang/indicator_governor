@@ -4,7 +4,6 @@ import { saveAs } from "file-saver";
 const DEFAULT_COLUMN_WIDTH = 20;
 
 export function saveWorkbook(workbook, fileName) {
-    // 导出文件
     workbook.xlsx.writeBuffer().then((data => {
         const blob = new Blob([data], { type: '' });
         saveAs(blob, fileName);

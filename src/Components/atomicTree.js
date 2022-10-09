@@ -106,6 +106,7 @@ const atomicTree = (props) => {
               return {
                 title,
                 key: item.key,
+                icon: item.icon,
                 children: loop(item.children),
               };
             }

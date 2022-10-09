@@ -1,6 +1,7 @@
-import { Card, Col, Row, Tag, Tooltip } from 'antd';
+import { Card, Col, Row, Tag, Tooltip, Button } from 'antd';
 import React from 'react';
 import _ from 'lodash'
+import { EditOutlined } from '@ant-design/icons';
 
 import 'antd/dist/antd.css';
 import './cardWall.css';
@@ -13,7 +14,7 @@ const wallConstruct = (data) => {
         </Tooltip>
     )
     const generateEle = (name, desc, attrs) => <Col span={8} key={`col-${name}`}> 
-        <Card key={name} className='card' title={name} bordered={false}> 
+        <Card key={name} className='card' title={name} bordered={false} extra={<Button shape="circle" icon={<EditOutlined />} />}> 
             <div>
                 {generateTag(attrs)}
                 <br /> <br />

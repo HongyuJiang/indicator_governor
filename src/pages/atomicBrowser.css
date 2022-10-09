@@ -8,6 +8,7 @@
   background: #fff;
   padding: 24;
   min-height: 360;
+  text-align: center;
 }
 
 .light-sider {
@@ -28,4 +29,14 @@
 
 .site-tree-search-value {
   color: red;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+}
+
+.header img {
+  padding: 8px;
+  margin-right: 50px;
 }

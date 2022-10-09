@@ -1,11 +1,12 @@
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Button } from 'antd';
 import React, { useState, useEffect } from 'react';
 const { Header, Content, Sider } = Layout;
 import CardWall from "../components/cardWall"
 import { getCommonDimensions, getAttributes } from '../../data.index';
-import _ from 'lodash'
 import { bindAttr2Dim } from '../util'
 import { headerItems } from '../global'
+import { PlusCircleOutlined } from '@ant-design/icons';
+import _ from 'lodash'
 
 import 'antd/dist/antd.css';
 
@@ -50,7 +51,10 @@ const dimBrowser = () => {
                         onSelect={onChangeDomain}
                     />
                 </Sider>
-                <Content style={{ padding: '0 24px', minHeight: 280 }}>
+                <Content style={{ padding: '0 24px', paddingTop:20, textAlign:'center', minHeight: 280 }}>
+                    <Button type="primary" shape="round" icon={<PlusCircleOutlined />}>
+                        新增一个维度
+                    </Button>
                     <CardWall data={allDimensions[focusDomain]}/>
                 </Content>
             </Layout>
