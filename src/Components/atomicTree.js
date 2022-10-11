@@ -27,7 +27,6 @@ const atomicTree = (props) => {
                 return null;
             })
             .filter((item, i, self) => item && self.indexOf(item) === i);
-
         }
 
         setExpandedKeys(newExpandedKeys);

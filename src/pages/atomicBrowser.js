@@ -2,7 +2,7 @@ import { Layout, Menu, Button } from 'antd';
 import React, { useState } from 'react';
 import AtomicByDomain from "../components/atomicTree"
 import IndexDetail from "../components/indexDetail"
-const { Header, Content, Footer, Sider } = Layout;
+import AtomicForm from "./forms/atomic"
 import { headerItems } from '../global'
 import { PlusCircleOutlined } from '@ant-design/icons';
 import logo from '../favicon.png';
@@ -10,11 +10,26 @@ import logo from '../favicon.png';
 import 'antd/dist/antd.css';
 import './atomicBrowser.css';
 
+const { Header, Content, Sider } = Layout;
+
 const atomicBrowser = () => {
   const [indexPath, setIndexPath] = useState("指标层级");
   const [indexDetail, setIndexDetail] = useState({});
+  const [isFormOpen, setIsFormOpen] = useState(false);
   const updateBreadcrumb = (path) => { setIndexPath(path) }
   const updateDetailOfIndex = (path) => { setIndexDetail(path) }
+
+  const addNewIndex = () => {
+    setIsFormOpen(true)
+  }
+
+  const handleOK = () => {
+    setIsFormOpen(false)
+  }
+
+  const handleCancel = () => {
+    setIsFormOpen(false)
+  }
 
   return (
     <>
@@ -40,14 +55,12 @@ const atomicBrowser = () => {
               <IndexDetail {...indexDetail} />
             </div>
             <div style={{textAlign: 'center', marginTop:20}}>
-              <Button type="primary" shape="round" icon={<PlusCircleOutlined />}>
+              <Button type="primary" shape="round" icon={<PlusCircleOutlined />} onClick={addNewIndex}>
                   新增一个原子指标
               </Button>
+              <AtomicForm isFormOpen={isFormOpen} handleOK={handleOK} handleCancel={handleCancel} />
             </div>
           </Content>
-          <Footer style={{ textAlign: 'center' }} >
-            Hongyu@Thoughtworks ©2022
-          </Footer>
         </Layout>
       </Layout>
     </>

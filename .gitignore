@@ -106,6 +106,7 @@ dist
 
 # Dataset
 *.csv
+database.json
 
 # Macos
 .DS_Store
