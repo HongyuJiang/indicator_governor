@@ -1,20 +1,24 @@
-import { Button, Form, Input, Modal, Space, Select } from 'antd';
-import React from 'react';
+import { Button, Form, Input, Modal, Select, notification, Row, Col } from 'antd';
+import React, { useEffect } from 'react';
 import 'antd/dist/antd.css';
+import { addAtomic, updateAtomic } from '../../../data.index'
+import { splitFields, joinFields, addFormItem } from '../../util'
+
+const { TextArea } = Input;
 
 const layout = {
     labelCol: {
         span: 4,
     },
     wrapperCol: {
-        span: 20,
+        span: 18,
     },
 };
 
 const tailFormItemLayout = {
-    wrapperCol: {
-        offset: 21,
-    },
+    style: {
+        textAlign: 'center'
+    }
 };
 
 const selector = (name, label) => (
@@ -34,71 +38,69 @@ const selector = (name, label) => (
     </Form.Item>
 )
 
-const requireMsg = (d) => {
-    return [
-        {
-            required: true,
-            message: `${d}对于指标是必要的哦`,
-        },
-    ]
-}
-
-const addFormItem = (name, label, required, layout={}) => {
-    return <Form.Item
-            name={name}
-            label={label}
-            rules={required ? requireMsg(label) : []}
-            {...layout}
-            >
-            <Input />
-          </Form.Item>
-}
-
 const atomicForm = (props) => {
 
-    const { isFormOpen, handleOK, handleCancel } = props
+    const { isFormOpen, handleOK, handleCancel, action, initialValues } = props
     const [form] = Form.useForm();
+    const values = splitFields(initialValues, ['常用维度', '适用公共统计规则'])
+
+    useEffect(() => {
+        form.resetFields()
+    }, [initialValues])
 
     const onFinish = (values) => {
-        console.log(values)
+        const newValues = joinFields(values, ['常用维度', '适用公共统计规则'])
+        const reqParams = { 'name': newValues['指标名称'], 'data': newValues }
+        action === 'add' ? addAtomic(newValues) : updateAtomic(reqParams)
+        notification.open({
+            message: '指标添加成功',
+            duration: 2,
+        });
         handleOK()
     };
 
-    return <Modal title="指标信息" open={isFormOpen} footer={null} onCancel={handleCancel}>
+    return <Modal width={800} title="指标信息" open={isFormOpen} footer={null} onCancel={handleCancel}>
         <Form
             form={form}
             name="atomic"
             onFinish={onFinish}
             scrollToFirstError
+            initialValues={values}
         >
 
-            <Space align="baseline">
-                <Form.Item noStyle>
-                {addFormItem('name','指标名称', true)}
-                </Form.Item>
-                {addFormItem('follower', '关注部门', true)}
-            </Space>
+            <Row gutter={22} style={{paddingLeft: 45, paddingRight: 63}}>
+                <Col span={12}>
+                {addFormItem('指标名称', '指标名称', true)}
+                </Col>
+                <Col span={12}>
+                {addFormItem('指标使用部门', '关注部门', true)}
+                </Col>
+            </Row>
 
-            <Space align="baseline">
-                <Form.Item noStyle>
-                {addFormItem('domain', '业务域', true)} 
-                </Form.Item>
-                {addFormItem('theme','主题', true)}
-            </Space>
+            <Row gutter={22} style={{paddingLeft: 45, paddingRight: 63}}>
+                <Col span={12}>
+                {addFormItem('业务域', '业务域', true)}
+                </Col>
+                <Col span={12}>
+                {addFormItem('一级分类', '主题', true)}
+                </Col>
+            </Row>
 
-            {addFormItem('defination','业务定义', true, layout)}
-            {addFormItem('equation','计算公式', false, layout)}
-            {addFormItem('condition','条件范围', false, layout)}
+            {addFormItem('业务定义', '业务定义', true, layout, <TextArea rows={2} />)}
+            {addFormItem('计算公式', '计算公式', false, layout)}
+            {addFormItem('范围及条件', '条件范围', false, layout)}
 
-            {selector('dimensions', '常用维度')}
-            {selector('rules', '统计规则')}
+            {selector('常用维度', '常用维度')}
+            {selector('适用公共统计规则', '统计规则')}
 
-            <Space align="baseline">
-                <Form.Item noStyle>
-                {addFormItem('range', '数值范围', false)} 
-                </Form.Item>
-                {addFormItem('unit','单位', false)}
-            </Space>
+            <Row gutter={22} style={{paddingLeft: 55, paddingRight: 63}}>
+                <Col span={12}>
+                {addFormItem('取值范围', '数值范围', false)}
+                </Col>
+                <Col span={12}>
+                {addFormItem('度量单位', '单位', false)}
+                </Col>
+            </Row>
 
             <Form.Item {...tailFormItemLayout}>
                 <Button type="primary" htmlType="submit">

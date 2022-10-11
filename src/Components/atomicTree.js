@@ -12,7 +12,11 @@ const atomicTree = (props) => {
     const [expandedKeys, setExpandedKeys] = useState([]);
     const [searchValue, setSearchValue] = useState('');
     const [flattenIndexes, setFlattenIndexes] = useState('');
+    const [selectedKey, setSelectedKey] = useState('');
     const [autoExpandParent, setAutoExpandParent] = useState(true);
+    const { updateBreadcrumb, updateDetailOfIndex } = props
+
+    const { shouldUpdate } = props
 
     const onChange = (e) => {
         const { value } = e.target;
@@ -41,20 +45,9 @@ const atomicTree = (props) => {
 
     const onSelect = (_, info) => {
         const attr = info.node;
-        props.updateBreadcrumb(info.node.key.replaceAll('_', ' / '))
-        info.node.key.split('_').length > 2 && props.updateDetailOfIndex({
-            name: attr.title,
-            className: attr.data['二级分类'],
-            stat_rules: attr.data['适用公共统计规则'],
-            dimension: attr.data['常用维度'],
-            range: attr.data['取值范围'],
-            defination: attr.data['业务定义'],
-            equation: attr.data['计算公式'],
-            target: attr.data['指标归口业务部门'],
-            unit: attr.data['度量单位'],
-            condition: attr.data['范围及条件'],
-            alias: attr.data['指标别名']
-        })
+        updateBreadcrumb(info.node.key.replaceAll('_', ' / '))
+        info.node.key.split('_').length > 2 && updateDetailOfIndex(attr.data)
+        setSelectedKey(attr.data['指标名称'])
     };
 
     useEffect(() => {
@@ -79,9 +72,18 @@ const atomicTree = (props) => {
                 }
                 domain !== '' && nestedIndicators.push({ title: domain, key: domain, children: topChildren, icon: <ApartmentOutlined /> })
             }
-            setTreeData(nestedIndicators)
+            setTreeData(nestedIndicators)     
         })
-    }, [])
+    }, [shouldUpdate])
+
+
+    useEffect(()=>{
+      if(selectedKey !== ''){
+        console.log(selectedKey, flattenIndexes)
+        console.log(_.find(flattenIndexes, (d) => d['指标名称'] == selectedKey))
+        updateDetailOfIndex(_.find(flattenIndexes, (d) => d['指标名称'] == selectedKey))
+      }
+    }, [treeData])
 
     const semanticData = useMemo(() => {
         const loop = (data) =>

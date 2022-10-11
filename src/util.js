@@ -1,4 +1,6 @@
 import _ from 'lodash'
+import { Form, Input } from 'antd';
+import React from 'react';
 
 const flatObject = (object, leafInfo, prefix='') => {
     const flatten = []
@@ -86,4 +88,44 @@ export const attrFormat = (originIndexes) => {
             type: 'attr'
         }
     })
+}
+
+export const splitFields = (values, fields) => {
+
+    const newValues = {...values}
+    fields.forEach((field) => {
+        if (newValues[field]) {
+            newValues[field] = newValues[field].split(',')
+        }
+    })
+    return newValues
+}
+
+export const joinFields = (values, fields) => {
+
+    const newValues = {...values}
+    fields.forEach((field) => {
+        if (newValues[field]) {
+            newValues[field] = newValues[field].join(',')
+        }
+    })
+    return newValues
+}
+
+const requireMsg = (d) => {
+    return [{
+        required: true,
+        message: `${d}对于指标是必要的哦`,
+    }]
+}
+
+export const addFormItem = (name, label, required, layout = {}, children=<Input />) => {
+    return <Form.Item
+        name={name}
+        label={label}
+        rules={required ? requireMsg(label) : []}
+        {...layout}
+    >
+        {children}
+    </Form.Item>
 }

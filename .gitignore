@@ -106,6 +106,7 @@ dist
 
 # Dataset
 *.csv
+*.json
 database.json
 
 # Macos

@@ -37,16 +37,12 @@ const dimBrowser = () => {
 
     useEffect(() => {
         getCommonDimensions().then((dimData) => {
-            getAttributes().then((attrData) => {
-                const dims = dimData.data
-                const attrs = attrData.data
-                const dimWithAttr = bindAttr2Dim(dims, attrs);
-                setAllDimensions(_.groupBy(dimWithAttr, '领域'))
-                const domains = _.uniq(dims.map((d) => d['领域'])).map((d, i) => {
-                    return { key: d, label: d }
-                })
-                setDomains(domains)
+            const dimWithAttr = dimData.data;
+            setAllDimensions(_.groupBy(dimWithAttr, '领域'))
+            const domains = _.uniq(dimWithAttr.map((d) => d['领域'])).map((d, i) => {
+                return { key: d, label: d }
             })
+            setDomains(domains)
         })
     }, [])
 
@@ -67,11 +63,11 @@ const dimBrowser = () => {
                     />
                 </Sider>
                 <Content style={{ padding: '0 24px', paddingTop: 20, textAlign: 'center', minHeight: 280 }}>
+                    <DimensionForm isFormOpen={isFormOpen} handleOK={handleOK} handleCancel={handleCancel} />
+                    <CardWall data={allDimensions[focusDomain]} />
                     <Button type="primary" shape="round" icon={<PlusCircleOutlined />} onClick={addNewIndex}>
                         新增一个维度
                     </Button>
-                    <DimensionForm isFormOpen={isFormOpen} handleOK={handleOK} handleCancel={handleCancel} />
-                    <CardWall data={allDimensions[focusDomain]} />
                 </Content>
             </Layout>
         </>
