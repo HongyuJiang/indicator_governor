@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import 'antd/dist/antd.css';
 import { addAtomic, updateAtomic } from '../../../data.index'
 import { splitFields, joinFields, addFormItem } from '../../util'
+import { SmileOutlined } from '@ant-design/icons';
 
 const { TextArea } = Input;
 
@@ -13,12 +14,6 @@ const layout = {
     wrapperCol: {
         span: 18,
     },
-};
-
-const tailFormItemLayout = {
-    style: {
-        textAlign: 'center'
-    }
 };
 
 const selector = (name, label) => (
@@ -45,7 +40,10 @@ const atomicForm = (props) => {
     const values = splitFields(initialValues, ['常用维度', '适用公共统计规则'])
 
     useEffect(() => {
-        form.resetFields()
+        if (Object.keys(initialValues).length > 0) {
+            console.log(initialValues)
+            form.resetFields()
+        }
     }, [initialValues])
 
     const onFinish = (values) => {
@@ -53,8 +51,9 @@ const atomicForm = (props) => {
         const reqParams = { 'name': newValues['指标名称'], 'data': newValues }
         action === 'add' ? addAtomic(newValues) : updateAtomic(reqParams)
         notification.open({
-            message: '指标添加成功',
-            duration: 2,
+            message: action === 'add' ? '指标添加成功' : '指标更新成功',
+            duration: 4,
+            icon: <SmileOutlined style={{ color: '#108ee9' }} />,
         });
         handleOK()
     };
@@ -102,7 +101,7 @@ const atomicForm = (props) => {
                 </Col>
             </Row>
 
-            <Form.Item {...tailFormItemLayout}>
+            <Form.Item style={{ textAlign: 'center' }}>
                 <Button type="primary" htmlType="submit">
                     提交
                 </Button>

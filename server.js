@@ -76,7 +76,6 @@ app.post('/delete_atomic', async function (req, res) {
 app.post('/update_atomic', async function (req, res) {
   const name = req.body.name
   const index = await db.getIndex("/index/atomic", name, "指标名称");
-  console.log(name, index)
   const data = req.body.data
   await db.push(`/index/atomic[${index}]`, data)
   res.end();
@@ -95,9 +94,9 @@ app.post('/delete_dimension', async function (req, res) {
 
 app.post('/update_dimension', async function (req, res) {
   const name = req.body.name
-  const index = await db.getIndex("/index/dimensions", name, "指标名称");
+  const index = await db.getIndex("/index/dimensions", name, "维度");
   const data = req.body.data
-  await db.push(`/index/dimensions[${index}}]`, data)
+  await db.push(`/index/dimensions[${index}]`, data)
   res.end();
 });
 

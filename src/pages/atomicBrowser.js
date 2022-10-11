@@ -3,9 +3,8 @@ import React, { useState } from 'react';
 import AtomicByDomain from "../components/atomicTree"
 import IndexDetail from "../components/indexDetail"
 import AtomicForm from "./forms/atomic"
-import { headerItems } from '../global'
+import NavHeader from '../components/navHeader';
 import { PlusCircleOutlined } from '@ant-design/icons';
-import logo from '../favicon.png';
 
 import 'antd/dist/antd.css';
 import './atomicBrowser.css';
@@ -42,10 +41,7 @@ const atomicBrowser = () => {
 
   return (
     <>
-      <Header className="header">
-        <img src={logo} alt="fireSpot"/>
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['Atomic']} items={headerItems} selectedKeys={"Atomic"}/>
-      </Header>
+      <NavHeader selectedKeys={"Atomic"}/>
       <Layout
         style={{
           minHeight: '100vh',

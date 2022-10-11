@@ -1,8 +1,9 @@
 import { Button, Form, Input, Modal, Select, notification, Row, Col } from 'antd';
-import React from 'react';
+import React, { useEffect } from 'react';
 import 'antd/dist/antd.css';
-import { addDimension } from '../../../data.index'
+import { addDimension, updateDimension } from '../../../data.index'
 import { addFormItem } from '../../util'
+import { SmileOutlined } from '@ant-design/icons';
 
 const { TextArea } = Input;
 
@@ -40,19 +41,29 @@ const selector = (
 
 const dimensionForm = (props) => {
 
-    const { isFormOpen, handleOK, handleCancel } = props
+    const { isFormOpen, handleOK, handleCancel, action, initValues } = props
     const [form] = Form.useForm();
 
+    useEffect(() => {
+        if (Object.keys(initValues).length > 0) {
+            form.resetFields()
+        }
+    }, [initValues])
+
     const onFinish = (values) => {
+
         if(values['属性']) {
             values['属性'] = values['属性'].map((d) => {
                 return { name:d }
             })
         }
-        addDimension(values)
+
+        const reqParams = { 'name': values['维度'], 'data': values }
+        action === 'add' ?  addDimension(values) : updateDimension(reqParams)
         notification.open({
-            message: '维度添加成功',
-            duration: 2,
+            message: action === 'add' ? '维度添加成功' : '维度更新成功',
+            duration: 4,
+            icon: <SmileOutlined style={{ color: '#108ee9' }} />,
           });
         handleOK()
     };
@@ -63,6 +74,7 @@ const dimensionForm = (props) => {
             name="dimension"
             onFinish={onFinish}
             scrollToFirstError
+            initialValues={initValues}
         >
 
             <Row gutter={22} style={{paddingLeft: 55, paddingRight: 63}}>

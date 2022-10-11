@@ -1,12 +1,11 @@
-import { Layout, Menu, Row, Col, Card, Space, Button } from 'antd';
+import { Layout, Row, Col, Card, Space } from 'antd';
 import React, { useState, useEffect, useRef } from 'react';
 import AtomicSelector from "../components/atomicSelector"
 import DimSelector from "../components/dimSelector"
 import ArtifactPreview from "../components/artifactPreview"
 import RuleSelector from "../components/ruleSelector"
 import AttrSelector from "../components/attrSelector"
-const { Header } = Layout;
-import { headerItems } from '../global'
+import NavHeader from '../components/navHeader';
 
 import 'antd/dist/antd.css';
 import './atomicBrowser.css';
@@ -69,9 +68,7 @@ const groupEditor = () => {
 
   return (
     <>
-      <Header className="header">
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['Atomic']} items={headerItems} selectedKeys={"GroupEditor"} />
-      </Header>
+      <NavHeader selectedKeys={"GroupEditor"}/>
       <Layout style={{ minHeight: '100vh' }}>
         <Space size={'middle'} direction={'vertical'} style={{ padding: 20 }}>
           <Row gutter={16}>
