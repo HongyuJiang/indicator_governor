@@ -9,7 +9,7 @@ import { PlusCircleOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import './atomicBrowser.css';
 
-const { Header, Content, Sider } = Layout;
+const { Content, Sider } = Layout;
 
 const atomicBrowser = () => {
   const [indexPath, setIndexPath] = useState("指标层级");
@@ -67,7 +67,7 @@ const atomicBrowser = () => {
                     isFormOpen={isFormOpen} 
                     handleOK={handleOK} 
                     handleCancel={handleCancel} 
-                    initialValues={{...indexDetail}}
+                    initialValues={action === 'add' ? {} : {...indexDetail}}
               />
             </div>
           </Content>

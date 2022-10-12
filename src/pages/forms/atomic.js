@@ -1,7 +1,7 @@
-import { Button, Form, Input, Modal, Select, notification, Row, Col } from 'antd';
-import React, { useEffect } from 'react';
+import { Button, Form, Input, Modal, Select, notification, Row, Col, Space } from 'antd';
+import React, { useEffect, useState } from 'react';
 import 'antd/dist/antd.css';
-import { addAtomic, updateAtomic } from '../../../data.index'
+import { addAtomic, updateAtomic, deleteAtomic } from '../../../data.index'
 import { splitFields, joinFields, addFormItem } from '../../util'
 import { SmileOutlined } from '@ant-design/icons';
 
@@ -38,12 +38,25 @@ const atomicForm = (props) => {
     const { isFormOpen, handleOK, handleCancel, action, initialValues } = props
     const [form] = Form.useForm();
     const values = splitFields(initialValues, ['常用维度', '适用公共统计规则'])
+    const [atomicName, setAtomicName] = useState([]);
+
+    const handleDelete = () => {
+        deleteAtomic({'name': atomicName})
+        notification.open({
+            message: '指标删除成功',
+            duration: 4,
+            icon: <SmileOutlined style={{ color: '#108ee9' }} />,
+        });
+        handleOK()
+    }
 
     useEffect(() => {
-        if (Object.keys(initialValues).length > 0) {
-            console.log(initialValues)
-            form.resetFields()
-        }
+        if(isFormOpen) form.resetFields()
+    }, [isFormOpen])
+
+    useEffect(() => {
+        const atomicName = initialValues['指标名称']
+        atomicName && setAtomicName(atomicName)
     }, [initialValues])
 
     const onFinish = (values) => {
@@ -102,9 +115,10 @@ const atomicForm = (props) => {
             </Row>
 
             <Form.Item style={{ textAlign: 'center' }}>
-                <Button type="primary" htmlType="submit">
-                    提交
-                </Button>
+                <Space>
+                    <Button type="primary" htmlType="submit"> 提交 </Button>
+                    { action === 'update' && <Button type="primary" danger onClick={handleDelete}> 删除 </Button>}
+                </Space>
             </Form.Item>
 
         </Form>

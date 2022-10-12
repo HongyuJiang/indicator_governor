@@ -23,9 +23,10 @@ const Content = ({ children, extra }) => (
 const IndexDetail = (props) => {
 
     const { onEditBtnClick } = props
+    const tags = props['指标使用部门'] ? props['指标使用部门'].split(',').map((d,i) => <Tag key={i} color="blue">{d}</Tag>) : null
 
     return props['指标名称'] ? <PageHeader
-        tags={props['指标使用部门'] && <Tag color="blue">{props['指标使用部门']}</Tag>}
+        tags={tags}
         className="site-page-header-responsive"
         title={props['指标名称']}
         subtTitle={props['指标别名']}

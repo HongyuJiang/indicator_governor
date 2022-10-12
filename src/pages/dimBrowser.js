@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import CardWall from "../components/cardWall"
 import { getCommonDimensions } from '../../data.index';
 import NavHeader from '../components/navHeader';
-import DimensionForm from './forms/dimension'
+import DimForm from './forms/dimension'
 import { PlusCircleOutlined } from '@ant-design/icons';
 import _ from 'lodash'
 
@@ -78,13 +78,13 @@ const dimBrowser = () => {
                     />
                 </Sider>
                 <Content style={{ padding: '0 24px', paddingTop: 20, minHeight: 280 }}>
-                    <DimensionForm  action={action} 
-                                    initValues={selectedDimension}
-                                    isFormOpen={isFormOpen} 
-                                    handleOK={handleOK} 
-                                    handleCancel={handleCancel} />
-                    <CardWall       data={allDimensions[focusDomain]} 
-                                    onEditBtnClick={editDimension}/>
+                    <DimForm  action={action} 
+                              initValues={action === 'add' ? {} : {selectedDimension}}
+                              isFormOpen={isFormOpen} 
+                              handleOK={handleOK} 
+                              handleCancel={handleCancel} />
+                    <CardWall data={allDimensions[focusDomain]} 
+                              onEditBtnClick={editDimension}/>
                     <div style={{ textAlign: 'center' }}>
                         <Button type="primary" shape="round" icon={<PlusCircleOutlined />} onClick={addDimension}>
                             新增一个维度

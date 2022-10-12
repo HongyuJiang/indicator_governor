@@ -68,7 +68,8 @@ app.post('/add_atomic', async function (req, res) {
 });
 
 app.post('/delete_atomic', async function (req, res) {
-  const index = req.body.index
+  const name = req.body.name
+  const index = await db.getIndex("/index/atomic", name, "指标名称");
   await db.delete(`/index/atomic[${index}]`)
   res.end();
 });
@@ -86,17 +87,18 @@ app.post('/add_dimension', async function (req, res) {
   res.end();
 });
 
-app.post('/delete_dimension', async function (req, res) {
-  const index = req.body.index
-  await db.delete(`/index/dimensions[${index}]`)
-  res.end();
-});
-
 app.post('/update_dimension', async function (req, res) {
   const name = req.body.name
   const index = await db.getIndex("/index/dimensions", name, "维度");
   const data = req.body.data
   await db.push(`/index/dimensions[${index}]`, data)
+  res.end();
+});
+
+app.post('/delete_dimension', async function (req, res) {
+  const name = req.body.name
+  const index = await db.getIndex("/index/dimensions", name, "维度");
+  await db.delete(`/index/dimensions[${index}]`)
   res.end();
 });
 

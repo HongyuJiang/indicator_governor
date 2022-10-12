@@ -79,8 +79,6 @@ const atomicTree = (props) => {
 
     useEffect(()=>{
       if(selectedKey !== ''){
-        console.log(selectedKey, flattenIndexes)
-        console.log(_.find(flattenIndexes, (d) => d['指标名称'] == selectedKey))
         updateDetailOfIndex(_.find(flattenIndexes, (d) => d['指标名称'] == selectedKey))
       }
     }, [treeData])

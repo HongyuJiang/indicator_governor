@@ -28,6 +28,14 @@ export function updateAtomic(params) {
     return axios.post('/update_atomic', params)
 }
 
-export function updateDimension(dimension) {
-    return axios.post('/update_dimension', dimension)
+export function updateDimension(params) {
+    return axios.post('/update_dimension', params)
+}
+
+export function deleteAtomic(params) {
+    return axios.post('/delete_atomic', params)
+}
+
+export function deleteDimension(params) {
+    return axios.post('/delete_dimension', params)
 }

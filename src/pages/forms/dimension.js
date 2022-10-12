@@ -1,7 +1,7 @@
-import { Button, Form, Input, Modal, Select, notification, Row, Col } from 'antd';
-import React, { useEffect } from 'react';
+import { Button, Form, Input, Modal, Select, notification, Row, Col, Space } from 'antd';
+import React, { useEffect, useState } from 'react';
 import 'antd/dist/antd.css';
-import { addDimension, updateDimension } from '../../../data.index'
+import { addDimension, updateDimension, deleteDimension } from '../../../data.index'
 import { addFormItem } from '../../util'
 import { SmileOutlined } from '@ant-design/icons';
 
@@ -13,12 +13,6 @@ const layout = {
     },
     wrapperCol: {
         span: 18,
-    },
-};
-
-const tailFormItemLayout = {
-    wrapperCol: {
-        offset: 21,
     },
 };
 
@@ -43,12 +37,26 @@ const dimensionForm = (props) => {
 
     const { isFormOpen, handleOK, handleCancel, action, initValues } = props
     const [form] = Form.useForm();
+    const [dimension, setDimension] = useState('add');
+
+    const handleDelete = () => {
+        deleteDimension({'name': dimension})
+        notification.open({
+            message: '维度删除成功',
+            duration: 4,
+            icon: <SmileOutlined style={{ color: '#108ee9' }} />,
+        });
+        handleOK()
+    }
 
     useEffect(() => {
-        if (Object.keys(initValues).length > 0) {
-            form.resetFields()
-        }
+        const dimension = initValues['维度']
+        dimension && setDimension(dimension)
     }, [initValues])
+
+    useEffect(() => {
+        if(isFormOpen) form.resetFields()
+    }, [isFormOpen])
 
     const onFinish = (values) => {
 
@@ -87,10 +95,11 @@ const dimensionForm = (props) => {
             </Row>
             {addFormItem('定义', '维度定义', true, layout, <TextArea rows={2} />)}
             {selector}
-            <Form.Item {...tailFormItemLayout}>
-                <Button type="primary" htmlType="submit">
-                    提交
-                </Button>
+            <Form.Item style={{ textAlign: 'center' }}>
+                <Space>
+                    <Button type="primary" htmlType="submit"> 提交 </Button>
+                    { action === 'update' && <Button type="primary" danger onClick={handleDelete}> 删除 </Button>}
+                </Space>
             </Form.Item>
 
         </Form>
