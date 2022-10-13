@@ -23,7 +23,6 @@ const ruleSelector = (props) => {
     }
 
     const onDragStart = (e) => {
-        console.log('drag start')
         const category = _.last(e.target.className.split(' '))
         props.updateRuleTag({ 'name': e.target.textContent, 'category': category })
         props.updateDragStatus(true)

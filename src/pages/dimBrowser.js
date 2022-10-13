@@ -32,7 +32,6 @@ const dimBrowser = () => {
 
     const editDimension = (domain, name, desc, attrs) => {
         return () => {
-            console.log(attrs)
             setIsFormOpen(true)
             setAction('update')
             setSelectedDimension({

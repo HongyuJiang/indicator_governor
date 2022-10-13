@@ -65,7 +65,6 @@ const atomicForm = (props) => {
     const onFinish = (values) => {
         const newValues = joinFields(values, ['常用维度', '适用公共统计规则'])
         const reqParams = { 'name': newValues['指标名称'], 'data': newValues }
-        console.log(action)
         action === 'add' ? addAtomic(newValues) : updateAtomic(reqParams)
         notification.open({
             message: action === 'add' ? '指标添加成功' : '指标更新成功',
