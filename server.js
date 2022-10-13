@@ -102,6 +102,6 @@ app.post('/delete_dimension', async function (req, res) {
   res.end();
 });
 
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!\n');
+app.listen(8521, '0.0.0.0', function () {
+  console.log('Example app listening\n');
 });
