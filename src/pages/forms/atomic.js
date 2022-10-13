@@ -6,6 +6,7 @@ import { splitFields, joinFields, addFormItem } from '../../util'
 import { SmileOutlined } from '@ant-design/icons';
 
 const { TextArea } = Input;
+const { Option } = Select;
 
 const layout = {
     labelCol: {
@@ -16,30 +17,32 @@ const layout = {
     },
 };
 
-const selector = (name, label) => (
+const selector = (name, label, children, type='tags') => (
     <Form.Item
         name={name}
         label={label}
         {...layout}
     >
         <Select
-            mode="tags"
-            style={{
-                width: '100%',
-            }}
+            mode={type}
+            style={{ width: '100%' }}
             placeholder="请依次输入并回车"
         >
+            {children}
         </Select>
     </Form.Item>
 )
 
 const atomicForm = (props) => {
 
-    const { isFormOpen, handleOK, handleCancel, action, initialValues } = props
     const [form] = Form.useForm();
-    const values = splitFields(initialValues, ['常用维度', '适用公共统计规则'])
     const [atomicName, setAtomicName] = useState([]);
 
+    const { isFormOpen, handleOK, handleCancel, action, initialValues, rules } = props
+    const values = splitFields(initialValues, ['常用维度', '适用公共统计规则'])
+
+    const ruleCandidates = rules.map((d, i) => <Option key={d['统计规则']}>{d['统计规则']}</Option>)
+    
     const handleDelete = () => {
         deleteAtomic({'name': atomicName})
         notification.open({
@@ -62,6 +65,7 @@ const atomicForm = (props) => {
     const onFinish = (values) => {
         const newValues = joinFields(values, ['常用维度', '适用公共统计规则'])
         const reqParams = { 'name': newValues['指标名称'], 'data': newValues }
+        console.log(action)
         action === 'add' ? addAtomic(newValues) : updateAtomic(reqParams)
         notification.open({
             message: action === 'add' ? '指标添加成功' : '指标更新成功',
@@ -102,8 +106,8 @@ const atomicForm = (props) => {
             {addFormItem('计算公式', '计算公式', false, layout)}
             {addFormItem('范围及条件', '条件范围', false, layout)}
 
-            {selector('常用维度', '常用维度')}
-            {selector('适用公共统计规则', '统计规则')}
+            {selector('常用维度', '常用维度', null)}
+            {selector('适用公共统计规则', '统计规则', ruleCandidates)}
 
             <Row gutter={22} style={{paddingLeft: 55, paddingRight: 63}}>
                 <Col span={12}>

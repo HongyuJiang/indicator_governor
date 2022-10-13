@@ -46,8 +46,10 @@ const atomicTree = (props) => {
     const onSelect = (_, info) => {
         const attr = info.node;
         updateBreadcrumb(info.node.key.replaceAll('_', ' / '))
-        info.node.key.split('_').length > 2 && updateDetailOfIndex(attr.data)
-        setSelectedKey(attr.data['指标名称'])
+        if(info.node.key.split('_').length > 2){
+          updateDetailOfIndex(attr.data)
+          setSelectedKey(attr.data['指标名称'])
+        }
     };
 
     useEffect(() => {
