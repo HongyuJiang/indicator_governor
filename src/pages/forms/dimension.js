@@ -70,7 +70,7 @@ const dimensionForm = (props) => {
         action === 'add' ?  addDimension(values) : updateDimension(reqParams)
         notification.open({
             message: action === 'add' ? '维度添加成功' : '维度更新成功',
-            duration: 4,
+            duration: 2,
             icon: <SmileOutlined style={{ color: '#108ee9' }} />,
           });
         handleOK()

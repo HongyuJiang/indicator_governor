@@ -36,7 +36,7 @@ const selector = (name, label, children, type='tags') => (
 const atomicForm = (props) => {
 
     const [form] = Form.useForm();
-    const [atomicName, setAtomicName] = useState([]);
+    const [atomicName, setAtomicName] = useState("");
 
     const { isFormOpen, handleOK, handleCancel, action, initialValues, rules } = props
     const values = splitFields(initialValues, ['常用维度', '适用公共统计规则'])
@@ -64,11 +64,11 @@ const atomicForm = (props) => {
 
     const onFinish = (values) => {
         const newValues = joinFields(values, ['常用维度', '适用公共统计规则'])
-        const reqParams = { 'name': newValues['指标名称'], 'data': newValues }
+        const reqParams = { 'name': atomicName, 'data': newValues }
         action === 'add' ? addAtomic(newValues) : updateAtomic(reqParams)
         notification.open({
             message: action === 'add' ? '指标添加成功' : '指标更新成功',
-            duration: 4,
+            duration: 2,
             icon: <SmileOutlined style={{ color: '#108ee9' }} />,
         });
         handleOK()
