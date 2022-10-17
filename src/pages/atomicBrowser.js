@@ -9,6 +9,7 @@ import { getStatRule } from '../../data.index';
 
 import 'antd/dist/antd.css';
 import './atomicBrowser.css';
+import _ from 'lodash';
 
 const { Content, Sider } = Layout;
 
@@ -48,6 +49,8 @@ const atomicBrowser = () => {
 
   }, [])
 
+  const defalutInitValue = { '业务域': _.get(indexDetail, '业务域'), '一级分类': _.get(indexDetail, '一级分类')}
+
   return (
     <>
       <NavHeader selectedKeys={"Atomic"} />
@@ -77,7 +80,7 @@ const atomicBrowser = () => {
                 isFormOpen={isFormOpen}
                 handleOK={handleOK}
                 handleCancel={handleCancel}
-                initialValues={action === 'add' ? {} : { ...indexDetail }}
+                initialValues={action === 'add' ? defalutInitValue : { ...indexDetail }}
               />
             </div>
           </Content>

@@ -78,7 +78,7 @@ const dimBrowser = () => {
                 </Sider>
                 <Content style={{ padding: '0 24px', paddingTop: 20, minHeight: 280 }}>
                     <DimForm  action={action} 
-                              initValues={action === 'add' ? {} : {selectedDimension}}
+                              initValues={action === 'add' ? {} : selectedDimension}
                               isFormOpen={isFormOpen} 
                               handleOK={handleOK} 
                               handleCancel={handleCancel} />

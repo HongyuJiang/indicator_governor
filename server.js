@@ -11,7 +11,8 @@ const compiler = webpack(config);
 var file = require("./server/file.js")
 var db = new JSONDB.JsonDB(new JSONDB.Config("database", true, false, "/"));
 
-app.use(bodyParser());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.use(
   webpackDevMiddleware(compiler, {

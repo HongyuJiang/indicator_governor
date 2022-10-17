@@ -95,7 +95,7 @@ export const splitFields = (values, fields) => {
     const newValues = {...values}
     fields.forEach((field) => {
         if (newValues[field]) {
-            newValues[field] = newValues[field].split((/，|,/)).filter((d) => d !== '')
+            newValues[field] = newValues[field].split((/，|,/)).filter((d) => d !== ' ')
         }
     })
     return newValues

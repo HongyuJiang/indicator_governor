@@ -37,7 +37,7 @@ const dimensionForm = (props) => {
 
     const { isFormOpen, handleOK, handleCancel, action, initValues } = props
     const [form] = Form.useForm();
-    const [dimension, setDimension] = useState('add');
+    const [dimension, setDimension] = useState('');
 
     const handleDelete = () => {
         deleteDimension({'name': dimension})
@@ -52,11 +52,9 @@ const dimensionForm = (props) => {
     useEffect(() => {
         const dimension = initValues['维度']
         dimension && setDimension(dimension)
-    }, [initValues])
-
-    useEffect(() => {
-        if(isFormOpen) form.resetFields()
-    }, [isFormOpen])
+        form.resetFields()
+        console.log(initValues)
+    }, [initValues['维度']])
 
     const onFinish = (values) => {
 

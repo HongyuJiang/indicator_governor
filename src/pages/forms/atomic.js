@@ -64,13 +64,10 @@ const atomicForm = (props) => {
     }
 
     useEffect(() => {
-        if(isFormOpen) form.resetFields()
-    }, [isFormOpen])
-
-    useEffect(() => {
         const atomicName = initialValues['指标名称']
         atomicName && setAtomicName(atomicName)
-    }, [initialValues])
+        form.resetFields()
+    }, [initialValues['指标名称']])
 
     const onFinish = (values) => {
         const newValues = joinFields(values, multipleFields)

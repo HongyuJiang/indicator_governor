@@ -1,4 +1,4 @@
-import { Button, Descriptions, PageHeader, Empty, Tabs, Tag } from 'antd';
+import { Button, Descriptions, PageHeader, Empty, Tag } from 'antd';
 import React from 'react';
 
 const renderContent = (props) => {
@@ -24,7 +24,6 @@ const IndexDetail = (props) => {
 
     const { onEditBtnClick } = props
     const tags = props['指标使用部门'] ? props['指标使用部门'].split(',').map((d,i) => <Tag key={i} color="blue">{d}</Tag>) : null
-    console.log(props['指标别名'])
 
     return props['指标名称'] ? <PageHeader
         tags={tags}
