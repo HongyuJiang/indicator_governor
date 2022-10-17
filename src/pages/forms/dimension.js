@@ -51,9 +51,8 @@ const dimensionForm = (props) => {
 
     useEffect(() => {
         const dimension = initValues['维度']
+        form.setFieldsValue(initValues)
         dimension && setDimension(dimension)
-        form.resetFields()
-        console.log(initValues)
     }, [initValues['维度']])
 
     const onFinish = (values) => {
@@ -80,7 +79,6 @@ const dimensionForm = (props) => {
             name="dimension"
             onFinish={onFinish}
             scrollToFirstError
-            initialValues={initValues}
         >
 
             <Row gutter={22} style={{paddingLeft: 55, paddingRight: 63}}>

@@ -64,9 +64,8 @@ const atomicForm = (props) => {
     }
 
     useEffect(() => {
-        const atomicName = initialValues['指标名称']
-        atomicName && setAtomicName(atomicName)
-        form.resetFields()
+        form.setFieldsValue(values)
+        setAtomicName(initialValues['指标名称'])
     }, [initialValues['指标名称']])
 
     const onFinish = (values) => {
@@ -89,7 +88,6 @@ const atomicForm = (props) => {
             name="atomic"
             onFinish={onFinish}
             scrollToFirstError
-            initialValues={values}
         >
 
             <Row gutter={22} style={{paddingLeft: 45, paddingRight: 63}}>
