@@ -8,6 +8,8 @@ import { SmileOutlined } from '@ant-design/icons';
 const { TextArea } = Input;
 const { Option } = Select;
 
+const multipleFields = ['常用维度', '适用公共统计规则', '指标使用部门', '度量单位']
+
 const layout = {
     labelCol: {
         span: 4,
@@ -17,14 +19,14 @@ const layout = {
     },
 };
 
-const selector = (name, label, children, type='tags') => (
+const selector = (name, label, children) => (
     <Form.Item
         name={name}
         label={label}
         {...layout}
     >
         <Select
-            mode={type}
+            mode={_.isNull(children) ? 'tags' : 'multiple'}
             style={{ width: '100%' }}
             placeholder="请依次输入并回车"
         >
@@ -33,23 +35,31 @@ const selector = (name, label, children, type='tags') => (
     </Form.Item>
 )
 
+const departments = ['结算部', '会员部', '商品二部', '品种部', '市场发展部', '监察部', '衍生品部', '交易部']
+const departCandidates = departments.map((d, i) => <Option key={d}>{d}</Option>)
+
+const notify = (action) => {
+    notification.open({
+        message: `指标${action}成功`,
+        duration: 4,
+        icon: <SmileOutlined style={{ color: '#108ee9' }} />,
+    });
+}
+
 const atomicForm = (props) => {
 
     const [form] = Form.useForm();
     const [atomicName, setAtomicName] = useState("");
 
     const { isFormOpen, handleOK, handleCancel, action, initialValues, rules } = props
-    const values = splitFields(initialValues, ['常用维度', '适用公共统计规则'])
+    const values = splitFields(initialValues, multipleFields)
 
     const ruleCandidates = rules.map((d, i) => <Option key={d['统计规则']}>{d['统计规则']}</Option>)
     
     const handleDelete = () => {
-        deleteAtomic({'name': atomicName})
-        notification.open({
-            message: '指标删除成功',
-            duration: 4,
-            icon: <SmileOutlined style={{ color: '#108ee9' }} />,
-        });
+        deleteAtomic({'name': atomicName}).then(() => {
+            notify('删除')
+        })
         handleOK()
     }
 
@@ -63,14 +73,16 @@ const atomicForm = (props) => {
     }, [initialValues])
 
     const onFinish = (values) => {
-        const newValues = joinFields(values, ['常用维度', '适用公共统计规则'])
+        const newValues = joinFields(values, multipleFields)
         const reqParams = { 'name': atomicName, 'data': newValues }
-        action === 'add' ? addAtomic(newValues) : updateAtomic(reqParams)
-        notification.open({
-            message: action === 'add' ? '指标添加成功' : '指标更新成功',
-            duration: 2,
-            icon: <SmileOutlined style={{ color: '#108ee9' }} />,
-        });
+        if(action === 'add') {
+            addAtomic(newValues)
+            notify('新增')
+        }
+        else if(action === 'update') {
+            updateAtomic(reqParams)
+            notify('更新')
+        }
         handleOK()
     };
 
@@ -88,7 +100,7 @@ const atomicForm = (props) => {
                 {addFormItem('指标名称', '指标名称', true)}
                 </Col>
                 <Col span={12}>
-                {addFormItem('指标使用部门', '关注部门', true)}
+                {addFormItem('指标别名', '指标别名', false)}
                 </Col>
             </Row>
 
@@ -107,13 +119,14 @@ const atomicForm = (props) => {
 
             {selector('常用维度', '常用维度', null)}
             {selector('适用公共统计规则', '统计规则', ruleCandidates)}
+            {selector('指标使用部门', '关注部门', departCandidates)}
 
             <Row gutter={22} style={{paddingLeft: 55, paddingRight: 63}}>
                 <Col span={12}>
                 {addFormItem('取值范围', '数值范围', false)}
                 </Col>
                 <Col span={12}>
-                {addFormItem('度量单位', '单位', false)}
+                {selector('度量单位', '单位', null)}
                 </Col>
             </Row>
 
