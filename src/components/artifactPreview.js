@@ -4,6 +4,7 @@ import { generateColumns } from './artifactColumns';
 import { indexFormat, dimFormat, attrFormat } from '../util'
 import { toExcel } from '../export'
 import { PlusCircleOutlined, ExportOutlined } from '@ant-design/icons';
+import _ from 'lodash'
 
 import './artifactPreview.css'
 
@@ -28,7 +29,7 @@ const generateMultiTable = (columns, dataset) => {
     return items
 }
 
-const artifactPreview = (props) => {
+const ArtifactPreview = (props) => {
 
     const { checkedIndexes, checkedDims, 
             ruleTag, dragStatus, checkedAttrs, 
@@ -125,4 +126,4 @@ const artifactPreview = (props) => {
     />
 }
 
-export default artifactPreview;
+export default ArtifactPreview;

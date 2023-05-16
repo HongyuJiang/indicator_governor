@@ -1,7 +1,7 @@
 import { Button, Form, Input, Modal, Select, notification, Row, Col, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
 import 'antd/dist/antd.css';
-import { addDimension, updateDimension, deleteDimension } from '../../../data.index'
+import { addDimension, updateDimension, deleteDimension } from '../../data.index'
 import { addFormItem } from '../../util'
 import { SmileOutlined } from '@ant-design/icons';
 
@@ -33,7 +33,7 @@ const selector = (
     </Form.Item>
 )
 
-const dimensionForm = (props) => {
+const DimensionForm = (props) => {
 
     const { isFormOpen, handleOK, handleCancel, action, initValues } = props
     const [form] = Form.useForm();
@@ -102,4 +102,4 @@ const dimensionForm = (props) => {
     </Modal>
 }
 
-export default dimensionForm
+export default DimensionForm

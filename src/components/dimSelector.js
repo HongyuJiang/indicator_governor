@@ -1,7 +1,7 @@
 import { Tabs, Tree } from 'antd';
 import { ApartmentOutlined } from '@ant-design/icons'; 
 import React, { useState, useEffect, useImperativeHandle, forwardRef } from 'react';
-import { getCommonDimensions, getAttributes } from '../../data.index';
+import { getCommonDimensions, getAttributes } from '../data.index';
 import { bindAttr2Dim } from '../util'
 import _ from 'lodash';
 

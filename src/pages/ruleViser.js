@@ -9,7 +9,7 @@ import 'antd/dist/antd.css';
 
 const { Content } = Layout;
 
-const ruleViser = () => {
+const RuleViser = () => {
 
     return (
         <>
@@ -23,4 +23,4 @@ const ruleViser = () => {
     );
 };
 
-export default ruleViser;
+export default RuleViser;

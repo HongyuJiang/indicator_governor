@@ -1,9 +1,10 @@
 import { Button, Form, Input, Modal, Select, notification, Row, Col, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
 import 'antd/dist/antd.css';
-import { addAtomic, updateAtomic, deleteAtomic } from '../../../data.index'
+import { addAtomic, updateAtomic, deleteAtomic } from '../../data.index'
 import { splitFields, joinFields, addFormItem } from '../../util'
 import { SmileOutlined } from '@ant-design/icons';
+import _ from 'lodash'
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -46,7 +47,7 @@ const notify = (action) => {
     });
 }
 
-const atomicForm = (props) => {
+const AtomicForm = (props) => {
 
     const [form] = Form.useForm();
     const [atomicName, setAtomicName] = useState("");
@@ -136,4 +137,4 @@ const atomicForm = (props) => {
     </Modal>
 }
 
-export default atomicForm
+export default AtomicForm

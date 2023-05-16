@@ -2,10 +2,10 @@ import { Breadcrumb, Layout, Menu } from 'antd';
 import React, { useState } from 'react';
 import AtomicByDomain from "./components/atomicTree"
 import IndexDetail from "./components/indexDetail"
-const { Header, Content, Footer, Sider } = Layout;
 
 import 'antd/dist/antd.css';
 import './App.css';
+const { Header, Content, Footer, Sider } = Layout;
 
 const headerItems = [
   { key: 'Atomic', label: ( <a href="/atomicBrowser"> 原子指标 </a> )},

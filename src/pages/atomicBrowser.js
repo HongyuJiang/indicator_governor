@@ -5,7 +5,7 @@ import IndexDetail from "../components/indexDetail"
 import AtomicForm from "./forms/atomic"
 import NavHeader from '../components/navHeader';
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { getStatRule } from '../../data.index';
+import { getStatRule } from '../data.index';
 
 import 'antd/dist/antd.css';
 import './atomicBrowser.css';
@@ -13,7 +13,7 @@ import _ from 'lodash';
 
 const { Content, Sider } = Layout;
 
-const atomicBrowser = () => {
+const AtomicBrowser = () => {
   const [indexPath, setIndexPath] = useState("指标层级");
   const [indexDetail, setIndexDetail] = useState({});
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -90,4 +90,4 @@ const atomicBrowser = () => {
   );
 };
 
-export default atomicBrowser;
+export default AtomicBrowser;

@@ -1,12 +1,12 @@
 import { ApartmentOutlined } from '@ant-design/icons'; 
 import { Tree, Input } from 'antd';
 import React, { useState, useEffect, useMemo } from 'react';
-import { getAtomicIndicators } from '../../data.index';
-const { Search } = Input;
+import { getAtomicIndicators } from '../data.index';
 import { getParentKey } from '../util'
 import _ from 'lodash';
+const { Search } = Input;
 
-const atomicTree = (props) => {
+const AtomicTree = (props) => {
 
     const [treeData, setTreeData] = useState([]);
     const [expandedKeys, setExpandedKeys] = useState([]);
@@ -138,4 +138,4 @@ const atomicTree = (props) => {
     );
 };
 
-export default atomicTree;
+export default AtomicTree;

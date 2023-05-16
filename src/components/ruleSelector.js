@@ -1,6 +1,6 @@
 import { Segmented, Card, Tag } from 'antd';
 import React, { useState, useEffect } from 'react';
-import { getStatRule } from '../../data.index';
+import { getStatRule } from '../data.index';
 import _ from 'lodash';
 
 import './dimSelector.css';
@@ -11,7 +11,7 @@ const assignColor = (category) => {
     else if(category.indexOf('同') > -1) return 'purple'
 }
 
-const ruleSelector = (props) => {
+const RuleSelector = (props) => {
 
     const [statRules, setStatRules] = useState({});
     const [statRulesFocused, setStatRulesFocused] = useState([]);
@@ -62,4 +62,4 @@ const ruleSelector = (props) => {
     );
 };
 
-export default ruleSelector;
+export default RuleSelector;

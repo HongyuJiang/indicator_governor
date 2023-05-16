@@ -1,7 +1,7 @@
 import { Layout, Menu, Button } from 'antd';
 import React, { useState, useEffect } from 'react';
 import CardWall from "../components/cardWall"
-import { getCommonDimensions } from '../../data.index';
+import { getCommonDimensions } from '../data.index';
 import NavHeader from '../components/navHeader';
 import DimForm from './forms/dimension'
 import { PlusCircleOutlined } from '@ant-design/icons';
@@ -11,7 +11,7 @@ import 'antd/dist/antd.css';
 
 const { Content, Sider } = Layout;
 
-const dimBrowser = () => {
+const DimBrowser = () => {
 
     const [allDimensions, setAllDimensions] = useState([]);
     const [domains, setDomains] = useState([]);
@@ -95,4 +95,4 @@ const dimBrowser = () => {
     );
 };
 
-export default dimBrowser;
+export default DimBrowser;

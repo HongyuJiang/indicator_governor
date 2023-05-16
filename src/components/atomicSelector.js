@@ -1,7 +1,7 @@
 import { ApartmentOutlined } from '@ant-design/icons'; 
 import { Tabs, Tree } from 'antd';
 import React, { useState, useEffect, useImperativeHandle, forwardRef } from 'react';
-import { getAtomicIndicators } from '../../data.index';
+import { getAtomicIndicators } from '../data.index';
 import _ from 'lodash';
 
 import './atomicSelector.css';

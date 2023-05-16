@@ -48,14 +48,14 @@ app.post('/stat_rules', async function (req, res) {
 
 app.post('/init', async function (req, res) {
   res.setHeader('Content-Type', 'application/json');
-  var data = await file.readCsvFile(__dirname + "/server/dataset/原子指标.csv")
-  await db.push('/index/atomic', data)
-  //var data2 = await file.readCsvFile(__dirname + "/server/dataset/维度.csv")
-  await db.push('/index/dimensions', bigdata)
-  // var data3 = await file.readCsvFile(__dirname + "/server/dataset/维度属性.csv")
-  // await db.push('/index/attributes', data3)
-  var data4 = await file.readCsvFile(__dirname + "/server/dataset/统计规则.csv")
-  await db.push('/index/rules', data4)
+  var atomics = await file.readCsvFile(__dirname + "/server/dataset/原子指标.csv")
+  await db.push('/index/atomic', atomics)
+  var dimensions = await file.readCsvFile(__dirname + "/server/dataset/维度.csv")
+  await db.push('/index/dimensions', dimensions)
+  var attrs = await file.readCsvFile(__dirname + "/server/dataset/维度属性.csv")
+  await db.push('/index/attributes', attrs)
+  var statRules = await file.readCsvFile(__dirname + "/server/dataset/统计规则.csv")
+  await db.push('/index/rules', statRules)
   res.send(await db.getData("/"));
 });
 

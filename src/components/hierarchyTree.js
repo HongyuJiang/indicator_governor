@@ -1,7 +1,7 @@
 import G6 from '@antv/g6';
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import { getStatRule } from '../../data.index';
+import { getStatRule } from '../data.index';
 import { structuringList } from '../util'
 
 let graph = null;
@@ -75,7 +75,7 @@ const draw = (data, ref) => {
     }
 }
 
-const hierachyTree = (props) => {
+const HierachyTree = (props) => {
 
     const ref = React.useRef(null);
 
@@ -93,4 +93,4 @@ const hierachyTree = (props) => {
     )
 };
 
-export default hierachyTree;
+export default HierachyTree;

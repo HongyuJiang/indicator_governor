@@ -1,8 +1,8 @@
 import { Tag } from 'antd';
 import React, { useState, useImperativeHandle, forwardRef, useEffect } from 'react';
-const { CheckableTag } = Tag;
 
 import './attrSelector.css';
+const { CheckableTag } = Tag;
 
 const attrSelector = forwardRef((props, ref) => {
 

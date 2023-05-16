@@ -10,7 +10,7 @@ import NavHeader from '../components/navHeader';
 import 'antd/dist/antd.css';
 import './atomicBrowser.css';
 
-const groupEditor = () => {
+const GroupEditor = () => {
 
   const [checkedIndexes, setCheckedIndexes] = useState([]);
   const [checkedDims, setCheckedDims] = useState([]);
@@ -113,4 +113,4 @@ const groupEditor = () => {
   );
 };
 
-export default groupEditor;
+export default GroupEditor;
